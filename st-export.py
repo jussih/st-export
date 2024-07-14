@@ -11,7 +11,6 @@ import requests
 from activities import ACTIVITIES
 
 USER_AGENT = "export-tool"
-DEBUG = False
 
 
 def main(token: str, path: str) -> None:
@@ -60,6 +59,7 @@ def export_workout(token: str, path: str, workout: dict) -> bool:
         headers = {"User-Agent": USER_AGENT}
         params = {"token": token}
         response = requests.get(url, params=params, headers=headers, timeout=120)
+        response.raise_for_status()
         with open(file_path, "w") as f:
             f.write(response.text)
         sys.stdout.write(".")
